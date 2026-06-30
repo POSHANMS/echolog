@@ -1,15 +1,15 @@
 # Progress Checklist
 
 ## Part 1 — Build
-- [ ] Project scaffold
-- [ ] Firebase project + Firestore configured
-- [ ] Write endpoint (validation + auth)
-- [ ] Read endpoint (20 newest-first)
-- [ ] Seed script (5+ entries)
-- [ ] ML/AI stretch — Option A (toxicity filter)
+- [x] Project scaffold
+- [x] Firebase project + Firestore configured
+- [x] Write endpoint (validation + auth)
+- [x] Read endpoint (20 newest-first)
+- [x] Seed script (5+ entries) -- seeded 7
+- [x] ML/AI stretch — Option A (toxicity filter)
 - [ ] React frontend wired to both endpoints
 - [ ] README.md (tested fresh)
-- [ ] .env.example
+- [x] .env.example
 - [ ] Deploy (Firebase Hosting/Functions)
 
 ## Part 2 — Decision Log (400-600 words)
