@@ -73,10 +73,10 @@ export default function App() {
         style={{
           x: springX,
           y: springY,
-          width: 600,
-          height: 600,
+          width: 400,
+          height: 400,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(193,98,61,0.18) 0%, rgba(193,98,61,0.06) 40%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(193,98,61,0.10) 0%, rgba(193,98,61,0.03) 40%, transparent 70%)",
         }}
       />
 
