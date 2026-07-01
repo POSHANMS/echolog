@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import type { Entry } from "../types";
 
 function timeAgo(isoString: string): string {
@@ -19,35 +20,50 @@ interface EntryCardProps {
 }
 
 export default function EntryCard({ entry }: EntryCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 28 }}
+      ref={ref}
+      initial={{ opacity: 0, x: -32, scale: 0.97 }}
+      animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+      transition={{ type: "spring", stiffness: 260, damping: 24 }}
       whileHover={{
-        y: -3,
-        boxShadow: "0 8px 24px rgba(193, 98, 61, 0.14)"
+        y: -5,
+        scale: 1.01,
+        boxShadow: "0 12px 32px rgba(193, 98, 61, 0.18)"
       }}
-      className="rounded-2xl p-5 cursor-default"
+      className="rounded-2xl p-5 cursor-default relative overflow-hidden"
       style={{
         background: "var(--color-surface)",
         boxShadow: "var(--shadow-soft)",
         border: "1px solid var(--color-border)",
-        transition: "box-shadow 0.2s ease"
       }}
     >
-      <p
-        className="text-base leading-relaxed"
-        style={{ color: "var(--color-text-primary)", fontFamily: "var(--font-body)" }}
-      >
-        {entry.text}
-      </p>
-      <p
-        className="mt-3 text-xs"
-        style={{ color: "var(--color-text-secondary)", fontFamily: "var(--font-body)" }}
-      >
-        {timeAgo(entry.createdAt)}
-      </p>
+      {/* Subtle left accent bar */}
+      <motion.div
+        className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full"
+        style={{ background: "var(--color-accent)" }}
+        initial={{ scaleY: 0 }}
+        animate={isInView ? { scaleY: 1 } : {}}
+        transition={{ delay: 0.15, duration: 0.4, ease: "easeOut" }}
+      />
+
+      <div className="pl-3">
+        <p
+          className="text-base leading-relaxed"
+          style={{ color: "var(--color-text-primary)", fontFamily: "var(--font-body)" }}
+        >
+          {entry.text}
+        </p>
+        <p
+          className="mt-3 text-xs"
+          style={{ color: "var(--color-text-secondary)", fontFamily: "var(--font-body)" }}
+        >
+          {timeAgo(entry.createdAt)}
+        </p>
+      </div>
     </motion.div>
   );
 }

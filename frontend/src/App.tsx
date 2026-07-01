@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, useMotionValue, useSpring, useScroll, useTransform } from "framer-motion";
 import Header from "./components/Header";
 import ComposeBox from "./components/ComposeBox";
 import Feed from "./components/Feed";
@@ -13,16 +13,20 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Cursor follower
-  const cursorX = useMotionValue(-200);
-  const cursorY = useMotionValue(-200);
-  const springX = useSpring(cursorX, { stiffness: 80, damping: 20 });
-  const springY = useSpring(cursorY, { stiffness: 80, damping: 20 });
+  // Cursor
+  const cursorX = useMotionValue(-400);
+  const cursorY = useMotionValue(-400);
+  const springX = useSpring(cursorX, { stiffness: 60, damping: 18 });
+  const springY = useSpring(cursorY, { stiffness: 60, damping: 18 });
+
+  // Scroll progress bar
+  const { scrollYProgress } = useScroll();
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 200);
-      cursorY.set(e.clientY - 200);
+      cursorX.set(e.clientX - 300);
+      cursorY.set(e.clientY - 300);
     };
     window.addEventListener("mousemove", move);
     return () => window.removeEventListener("mousemove", move);
@@ -52,50 +56,58 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ background: "var(--color-bg)" }}>
+    <div className="min-h-screen relative overflow-x-hidden" style={{ background: "var(--color-bg)" }}>
 
-      {/* Global cursor glow orb */}
+      {/* Scroll progress bar */}
       <motion.div
-        className="pointer-events-none fixed z-50"
+        className="fixed top-0 left-0 right-0 h-[3px] z-50 origin-left"
+        style={{
+          scaleX,
+          background: "linear-gradient(90deg, var(--color-accent), var(--color-warning))"
+        }}
+      />
+
+      {/* Cursor orb — bigger and more visible */}
+      <motion.div
+        className="pointer-events-none fixed z-40"
         style={{
           x: springX,
           y: springY,
-          width: 400,
-          height: 400,
+          width: 600,
+          height: 600,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(193,98,61,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(193,98,61,0.18) 0%, rgba(193,98,61,0.06) 40%, transparent 70%)",
         }}
       />
 
-      {/* Floating background blobs */}
-      <div
-        className="pointer-events-none fixed top-[-100px] right-[-100px] w-[500px] h-[500px] rounded-full opacity-30"
+      {/* Static background blobs */}
+      <div className="pointer-events-none fixed top-[-150px] right-[-150px] w-[600px] h-[600px] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(193,98,61,0.15) 0%, transparent 70%)",
-          filter: "blur(40px)"
-        }}
-      />
-      <div
-        className="pointer-events-none fixed bottom-[-100px] left-[-100px] w-[400px] h-[400px] rounded-full opacity-20"
-        style={{
-          background: "radial-gradient(circle, rgba(217,140,61,0.2) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(193,98,61,0.12) 0%, transparent 70%)",
           filter: "blur(60px)"
         }}
       />
+      <div className="pointer-events-none fixed bottom-[-100px] left-[-100px] w-[500px] h-[500px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(217,140,61,0.15) 0%, transparent 70%)",
+          filter: "blur(80px)"
+        }}
+      />
 
+      {/* Page entrance */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
         <Header />
       </motion.div>
 
       <main className="max-w-2xl mx-auto px-6 py-8 md:px-12 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         >
           <ComposeBox onPost={handlePost} />
         </motion.div>
@@ -103,7 +115,7 @@ export default function App() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.3 }}
+          transition={{ duration: 0.4, delay: 0.4 }}
         >
           <Feed entries={entries} loading={loading} error={error} />
         </motion.div>
