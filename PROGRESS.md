@@ -7,10 +7,10 @@
 - [x] Read endpoint (20 newest-first)
 - [x] Seed script (5+ entries) -- seeded 7
 - [x] ML/AI stretch — Option A (toxicity filter)
-- [ ] React frontend wired to both endpoints
+- [x] React frontend wired to both endpoints
 - [ ] README.md (tested fresh)
 - [x] .env.example
-- [ ] Deploy (Firebase Hosting/Functions)
+- [x] Deploy — Vercel (frontend) + Render (backend)
 
 ## Part 2 — Decision Log (400-600 words)
 - [ ] Not started
