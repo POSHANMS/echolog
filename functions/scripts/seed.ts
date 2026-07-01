@@ -11,7 +11,6 @@ const db = getFirestore();
 const SAMPLE_ENTRIES = [
   "Shipped the auth middleware today, feels good to have a clean header check.",
   "Reminder to self: always validate input on the server, never trust the client.",
-  "Coffee farm update: pruning the Robusta rows this week before the rains hit.",
   "Debugging Firestore query ordering for an hour just to find a missing index.",
   "First deploy to Firebase Hosting went smoother than expected. Small win.",
   "Working through a take-home assignment tonight, deep in TypeScript types."
