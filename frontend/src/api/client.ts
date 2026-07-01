@@ -1,4 +1,4 @@
-import type { Entry } from "../types";
+import type { Entry, EntriesResponse, ApiError } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const WRITE_API_KEY = import.meta.env.VITE_WRITE_API_KEY;
