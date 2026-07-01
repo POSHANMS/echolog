@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Entry } from "../types";
+import type { Entry } from "../types";
 
 function timeAgo(isoString: string): string {
   const diff = Date.now() - new Date(isoString).getTime();

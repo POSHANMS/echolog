@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import ComposeBox from "./components/ComposeBox";
 import Feed from "./components/Feed";
 import { fetchEntries, postEntry } from "./api/client";
-import { Entry } from "./types";
+import type { Entry } from "./types";
 
 const POLL_INTERVAL = 30000; // 30 seconds
 

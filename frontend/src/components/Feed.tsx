@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Entry } from "../types";
+import type { Entry } from "../types";
 import EntryCard from "./EntryCard";
 
 interface FeedProps {
